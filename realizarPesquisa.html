@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Pesquisa</title>
+</head>
+<body>
+    <h1>Formulário de Pesquisa</h1>
+
+    <form id="pesquisaForm">
+        <label for="valorCid10">CID_10:</label>
+        <input type="text" id="valorCid10" name="valorCid10" required>
+
+        <label for="valorCidTipo">CID_TIPO:</label>
+        <input type="text" id="valorCidTipo" name="valorCidTipo" required>
+
+        <label for="nomeArquivo">Nome do Arquivo:</label>
+        <input type="text" id="nomeArquivo" name="nomeArquivo" required>
+
+        <button type="submit">Realizar Pesquisa</button>
+    </form>
+
+    <script>
+        document.getElementById('pesquisaForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const valorCid10 = document.getElementById('valorCid10').value;
+            const valorCidTipo = document.getElementById('valorCidTipo').value;
+            const nomeArquivo = document.getElementById('nomeArquivo').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/realizarPesquisa', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ valorCid10, valorCidTipo, nomeArquivo }),
+                });
+
+                const data = await response.json();
+                console.log('Resultados da pesquisa:', data.resultados);
+            } catch (error) {
+                console.error('Erro ao realizar pesquisa:', error);
+            }
+        });
+    </script>
+</body>
+</html>
